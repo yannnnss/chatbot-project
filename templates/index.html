@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f8f9fc">
+    <title>Ruang AI — Asisten Pintar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="/" aria-label="Ruang AI beranda">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" fill="none">
+                        <path d="M16 3.5 18.8 12l8.7 4-8.7 3.9L16 28.5l-2.8-8.6L4.5 16l8.7-4L16 3.5Z" fill="currentColor"/>
+                        <path d="m25 4 .9 2.7 2.6 1.1-2.6 1.2L25 11.5l-.9-2.5-2.6-1.2 2.6-1.1L25 4Z" fill="currentColor" opacity=".7"/>
+                    </svg>
+                </span>
+                <span>Muchas<span class="brand-light"> ai</span></span>
+            </a>
+
+            <button class="new-chat-button" id="newChatBtn" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <span>Mulai percakapan</span>
+                <span class="shortcut">⌘ K</span>
+            </button>
+
+            <div class="sidebar-label">PROYEK MU</div>
+            <div class="sidebar-item active">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v9a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4.6a2.5 2.5 0 0 1-1-1.9v-9Z"/><path d="M8 8h8M8 12h5"/></svg>
+                <span>Percakapan baru</span>
+            </div>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-note">
+                    <span class="note-icon">✦</span>
+                    <p>Teman berpikir untuk ide-ide hebatmu.</p>
+                </div>
+                <div class="profile">
+                    <div class="profile-avatar">K</div>
+                    <div class="profile-copy">
+                        <strong>Pengguna</strong>
+                        <span>Ruang personal</span>
+                    </div>
+                    <span class="profile-menu" aria-hidden="true">···</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+            <header class="topbar">
+                <div class="mobile-brand">
+                    <span class="brand-mark" aria-hidden="true">
+                        <svg viewBox="0 0 32 32" fill="none"><path d="M16 3.5 18.8 12l8.7 4-8.7 3.9L16 28.5l-2.8-8.6L4.5 16l8.7-4L16 3.5Z" fill="currentColor"/></svg>
+                    </span>
+                    <span>Muchas<span class="brand-light"> ai</span></span>
+                </div>
+                <div class="model-pill">
+                    <span class="model-status"></span>
+                    <span>Asisten AI</span>
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+                </div>
+            </header>
+
+            <section class="conversation" aria-label="Percakapan dengan asisten AI">
+                <div class="welcome" id="welcome">
+                    <div class="welcome-orbit">
+                        <div class="welcome-symbol" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" fill="none">
+                                <path d="m24 4 5.1 14.1L43 24l-13.9 5.9L24 44l-5.1-14.1L5 24l13.9-5.9L24 4Z" fill="currentColor"/>
+                                <path d="m38 5 1.8 4.2L44 11l-4.2 1.8L38 17l-1.8-4.2L32 11l4.2-1.8L38 5Z" fill="currentColor" opacity=".62"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="eyebrow"><span></span> ASISTEN AI PRIBADIMU</div>
+                    <h1>Halo, mau bikin<br><span>apa hari ini?</span></h1>
+                    <p>Tanya apa saja, tuangkan ide, atau mulai dari salah satu inspirasi ini.</p>
+
+                    <div class="suggestions" aria-label="Contoh pertanyaan">
+                        <button class="suggestion-card" type="button" data-prompt="Bantu aku mencari ide kreatif untuk proyek baru">
+                            <span class="suggestion-icon lilac">✳</span>
+                            <span><strong>Cari inspirasi</strong><small>Temukan ide-ide segar</small></span>
+                            <span class="suggestion-arrow">↗</span>
+                        </button>
+                        <button class="suggestion-card" type="button" data-prompt="Jelaskan topik yang sulit dengan bahasa sederhana">
+                            <span class="suggestion-icon peach">⌘</span>
+                            <span><strong>Belajar sesuatu</strong><small>Pahami hal rumit dengan mudah</small></span>
+                            <span class="suggestion-arrow">↗</span>
+                        </button>
+                        <button class="suggestion-card" type="button" data-prompt="Bantu aku menulis pesan yang jelas dan menarik">
+                            <span class="suggestion-icon mint">✎</span>
+                            <span><strong>Mulai menulis</strong><small>Ubah pikiran jadi kata-kata</small></span>
+                            <span class="suggestion-arrow">↗</span>
+                        </button>
+                        <button class="suggestion-card" type="button" data-prompt="Bantu aku menyusun rencana untuk mencapai tujuanku">
+                            <span class="suggestion-icon blue">⌁</span>
+                            <span><strong>Susun rencana</strong><small>Langkah kecil, tujuan besar</small></span>
+                            <span class="suggestion-arrow">↗</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+            </section>
+
+            <footer class="composer-area">
+                <form class="composer" id="chatForm">
+                    <div class="attachment-list" id="attachmentList" aria-live="polite" hidden></div>
+                    <div class="composer-input-row">
+                        <button class="attach-button" id="attachBtn" type="button" aria-label="Lampirkan foto atau file" title="Lampirkan foto atau file">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21.4 11.1-8.9 8.9a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>
+                        </button>
+                        <input id="fileInput" type="file" accept=".png,.jpg,.jpeg,.webp,.pdf,.txt,.md,.csv,.docx" multiple hidden>
+                        <textarea id="userInput" rows="1" placeholder="Tulis apa yang sedang kamu pikirkan..." autocomplete="off" aria-label="Pesan untuk asisten AI"></textarea>
+                    </div>
+                    <div class="composer-bottom">
+                        <span class="composer-hint"><span class="sparkle">✦</span> AI bisa membuat kesalahan. Periksa kembali informasi penting.</span>
+                        <button id="sendBtn" type="submit" aria-label="Kirim pesan">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                        </button>
+                    </div>
+                </form>
+            </footer>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
