@@ -20,25 +20,21 @@
                         <path d="m25 4 .9 2.7 2.6 1.1-2.6 1.2L25 11.5l-.9-2.5-2.6-1.2 2.6-1.1L25 4Z" fill="currentColor" opacity=".7"/>
                     </svg>
                 </span>
-                <span>Muchas<span class="brand-light"> ai</span></span>
+                <span>Muchas<span class="brand-light"> AI</span></span>
             </a>
 
             <button class="new-chat-button" id="newChatBtn" type="button">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 <span>Mulai percakapan</span>
-                <span class="shortcut">⌘ K</span>
             </button>
 
-            <div class="sidebar-label">PROYEK MU</div>
-            <div class="sidebar-item active">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v9a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4.6a2.5 2.5 0 0 1-1-1.9v-9Z"/><path d="M8 8h8M8 12h5"/></svg>
-                <span>Percakapan baru</span>
-            </div>
+            <div class="sidebar-label">RIWAYAT PERCAKAPAN</div>
+            <nav class="chat-history-list" id="chatHistoryList" aria-label="Riwayat percakapan"></nav>
 
             <div class="sidebar-bottom">
                 <div class="sidebar-note">
                     <span class="note-icon">✦</span>
-                    <p>Teman berpikir untuk ide-ide hebatmu.</p>
+                    <p>Sebuah Asisten untuk membantu tugas sehari-hari</p>
                 </div>
                 <div class="profile">
                     <div class="profile-avatar">K</div>
@@ -46,7 +42,6 @@
                         <strong>Pengguna</strong>
                         <span>Ruang personal</span>
                     </div>
-                    <span class="profile-menu" aria-hidden="true">···</span>
                 </div>
             </div>
         </aside>
@@ -59,10 +54,19 @@
                     </span>
                     <span>Muchas<span class="brand-light"> ai</span></span>
                 </div>
-                <div class="model-pill">
-                    <span class="model-status"></span>
-                    <span>Asisten AI</span>
-                    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+                <div class="topbar-actions">
+                    <button class="history-toggle" id="historyToggle" type="button" aria-label="Buka riwayat percakapan" aria-expanded="false" title="Riwayat percakapan">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5m4-1v5l3 2"/></svg>
+                    </button>
+                    <div class="model-pill">
+                        <span class="model-status"></span>
+                        <span>Asisten AI</span>
+
+                    </div>
+                    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Aktifkan mode gelap" title="Aktifkan mode gelap">
+                        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.6A8.5 8.5 0 0 1 8.4 3.8 8.5 8.5 0 1 0 20.2 15.6Z"/></svg>
+                        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+                    </button>
                 </div>
             </header>
 
@@ -105,6 +109,9 @@
                 </div>
 
                 <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+                <button class="scroll-bottom-button" id="scrollBottomBtn" type="button" aria-label="Ke pesan terbaru" title="Ke pesan terbaru" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
             </section>
 
             <footer class="composer-area">

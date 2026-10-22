@@ -1,29 +1,21 @@
-# Chatbot AI
-
 ## Menjalankan dengan Groq
-
 1. Jalankan `database.sql` di phpMyAdmin atau MySQL Workbench. Untuk Laragon standar, konfigurasi MySQL bawaan aplikasi memakai `localhost`, user `root`, tanpa password, dan database `chatbot_db`.
 2. Buka PowerShell di folder proyek. Pasang dependensi jika belum terpasang:
 
    ```powershell
    .\.venv\Scripts\python.exe -m pip install -r requirements.txt
    ```
-
 3. Atur API key Groq yang masih aktif di PowerShell. Jangan simpan API key di file kode:
 
    ```powershell
-   $env:GROQ_API_KEY = "YOUR_API_KEY"
+   $env:GROQ_API_KEY = "API_GROQ"
    ```
-
-   Opsional: jika konfigurasi MySQL berbeda dari Laragon standar, atur `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, atau `DB_NAME`. Model bawaan adalah `openai/gpt-oss-120b`; bisa diganti dengan `GROQ_MODEL`.
-
 4. Jalankan server:
 
    ```powershell
-   .\.venv\Scripts\python.exe app.py
+   python app.py
    ```
-
-5. Buka `http://127.0.0.1:5000` di browser.
+5. Buka `   http://127.0.0.1:5000` di browser.
 
 API key cloud harus memiliki akses ke model yang dipilih. Pesan error dari Groq akan ditampilkan di chat untuk membantu mengecek key, model, kuota, dan koneksi.
 

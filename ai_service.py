@@ -1,30 +1,39 @@
 import base64
-
 import requests
-
 from config import AI_MODEL, API_KEY, API_URL, OLLAMA_MODEL, OLLAMA_VISION_MODEL, USE_OLLAMA, VISION_MODEL
 
+# Muat library Ollama hanya jika konfigurasi memilih provider lokal tersebut.
 if USE_OLLAMA:
     import ollama
 
 
+# Exception khusus untuk error yang terjadi saat meminta jawaban dari layanan AI.
 class AIServiceError(RuntimeError):
     pass
 
 
+# Menyusun konteks percakapan, menambahkan gambar/dokumen, lalu meminta jawaban AI.
 def get_ai_response(user_message, history, images=None, document_text=''):
+    # Normalisasi agar proses selanjutnya selalu menerima daftar gambar.
     images = images or []
+
+    # Instruksi dasar untuk AI, diikuti pesan-pesan percakapan sebelumnya.
     messages = [{'role': 'system', 'content': 'Kamu adalah asisten yang ramah dan membantu.'}]
     for item in history:
         messages.append({
             'role': 'user' if item['sender'] == 'user' else 'assistant',
             'content': item['message'],
         })
+
+    # Sertakan teks dokumen sebagai bagian dari prompt pesan terbaru jika tersedia.
     prompt = user_message
     if document_text:
         prompt += f'\n\n{document_text}'
 
     current_message = {'role': 'user', 'content': prompt}
+
+    # Format gambar disesuaikan dengan provider: Ollama menerima data gambar langsung,
+    # sedangkan provider API menerima URL data base64 di dalam isi pesan.
     if images and USE_OLLAMA:
         current_message['images'] = [image['data'] for image in images]
     elif images:
@@ -37,6 +46,7 @@ def get_ai_response(user_message, history, images=None, document_text=''):
             })
     messages.append(current_message)
 
+    # Jalur permintaan ke model Ollama yang berjalan secara lokal.
     if USE_OLLAMA:
         try:
             model = OLLAMA_VISION_MODEL if images else OLLAMA_MODEL
@@ -48,6 +58,7 @@ def get_ai_response(user_message, history, images=None, document_text=''):
             raise AIServiceError('Ollama mengembalikan jawaban kosong.')
         return content
 
+    # Pastikan kredensial tersedia sebelum menghubungi provider API.
     if not API_KEY:
         raise AIServiceError(
             'GROQ_API_KEY belum diatur. Atur environment variable GROQ_API_KEY '
@@ -58,6 +69,8 @@ def get_ai_response(user_message, history, images=None, document_text=''):
         'Authorization': f'Bearer {API_KEY}',
         'Content-Type': 'application/json',
     }
+
+    # Pilih model teks atau vision, lalu kirim riwayat dan pesan terbaru ke API.
     model = VISION_MODEL if images else AI_MODEL
     payload = {'model': model, 'messages': messages}
     try:
@@ -65,6 +78,7 @@ def get_ai_response(user_message, history, images=None, document_text=''):
     except requests.RequestException as exc:
         raise AIServiceError(f'Tidak dapat menghubungi layanan AI: {exc}') from exc
 
+    # Ubah respons HTTP yang gagal menjadi error yang lebih mudah dipahami.
     if not response.ok:
         detail = response.text.strip()
         if len(detail) > 500:
@@ -79,12 +93,14 @@ def get_ai_response(user_message, history, images=None, document_text=''):
             f'{detail or response.reason}'
         )
 
+    # Ambil teks jawaban dari struktur respons API dan tangani format yang tidak valid.
     try:
         data = response.json()
         content = data['choices'][0]['message']['content']
     except (ValueError, KeyError, IndexError, TypeError) as exc:
         raise AIServiceError('Provider AI mengembalikan format respons yang tidak valid.') from exc
 
+    # Pastikan jawaban berupa teks yang tidak kosong sebelum dikembalikan ke pemanggil.
     if not isinstance(content, str) or not content.strip():
         raise AIServiceError('Provider AI mengembalikan jawaban kosong.')
     return content.strip()
